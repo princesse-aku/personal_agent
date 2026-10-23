@@ -1,0 +1,25 @@
+# Secrets — never commit
+.env
+**/.env
+!**/.env.example
+
+# Python
+__pycache__/
+*.py[oc]
+.venv/
+*.egg-info
+backend/*.db
+
+# Node
+node_modules/
+frontend/dist/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Google OAuth files (generated locally, never committed)
+credentials.json
+token.json
+client_secret*.json
