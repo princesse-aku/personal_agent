@@ -12,6 +12,14 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from agent.deps import Deps
+from tools.actions import cancel_action, confirm_action
+from tools.calendar import (
+    calendar_create_event,
+    calendar_list_events,
+    calendar_propose_delete,
+    calendar_propose_update,
+)
+from tools.drive import drive_read_file, drive_search
 from tools.weather import get_weather
 from tools.web import web_search
 
@@ -24,7 +32,18 @@ JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"
 agent = Agent(
     deps_type=Deps,
     instructions=PROMPT,
-    tools=[web_search, get_weather],
+    tools=[
+        web_search,
+        get_weather,
+        calendar_list_events,
+        calendar_create_event,
+        calendar_propose_update,
+        calendar_propose_delete,
+        drive_search,
+        drive_read_file,
+        confirm_action,
+        cancel_action,
+    ],
     retries=2,
 )
 

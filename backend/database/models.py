@@ -32,3 +32,18 @@ class Message(Base):
     role: Mapped[str] = mapped_column(String(20))  # user | assistant | system-notification | note
     content: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+
+
+class PendingAction(Base):
+    """A side-effecting action (update/delete event, send email…) awaiting the user's explicit OK."""
+
+    __tablename__ = "pending_actions"
+
+    id: Mapped[str] = mapped_column(String(32), primary_key=True)
+    conversation_id: Mapped[int] = mapped_column(ForeignKey("conversations.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(40))  # e.g. "calendar.update", "calendar.delete"
+    payload: Mapped[str] = mapped_column(Text)  # JSON arguments for the executor
+    summary: Mapped[str] = mapped_column(Text)  # human-readable description shown to the user
+    run_id: Mapped[str] = mapped_column(String(32))  # turn in which it was proposed
+    status: Mapped[str] = mapped_column(String(16), default="pending")  # pending | done | cancelled | failed
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())

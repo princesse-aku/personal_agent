@@ -320,8 +320,14 @@ async def chat(req: ChatRequest, request: Request):
             yield sse_event("error", {"detail": "La tâche demandait trop d'étapes, essaie de la découper."})
             return
         except ModelHTTPError as exc:
-            log.warning("LLM HTTP error %s", exc.status_code)
-            yield sse_event("error", {"detail": f"The LLM API call failed ({exc.status_code})."})
+            log.warning("LLM HTTP error %s: %s", exc.status_code, exc.body)
+            if exc.status_code == 402:
+                detail = "Crédits RodiumAI insuffisants pour ce modèle : vérifie la clé et sa dotation."
+            elif exc.status_code in (401, 403):
+                detail = "Clé RodiumAI refusée ou modèle non autorisé pour cette clé."
+            else:
+                detail = f"The LLM API call failed ({exc.status_code})."
+            yield sse_event("error", {"detail": detail})
             return
         except (UnexpectedModelBehavior, httpx.HTTPError):
             log.exception("Agent run failed")

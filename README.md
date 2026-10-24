@@ -29,9 +29,9 @@ railway.toml         déploiement Railway
 |---|---|---|
 | `web_search` | Tavily (web + actualités, avec sources) | ✅ |
 | `get_weather` | WeatherAPI (actuel + prévisions 3 jours) | ✅ |
-| Google Calendar | Google Calendar API (OAuth 2.0) | à venir |
+| `calendar_*` | Google Calendar API (OAuth 2.0) : lister, créer, modifier, supprimer | ✅ |
 | Email | SMTP | à venir |
-| Google Drive | Google Drive API (OAuth 2.0) | à venir |
+| `drive_search`, `drive_read_file` | Google Drive API (lecture seule) : Docs, Sheets, Slides, PDF, texte | ✅ |
 | Notion | Notion API | à venir |
 
 ## Lancement local
@@ -65,7 +65,11 @@ npm run dev                  # http://localhost:5173, proxy /api → :8000
 - Aucune clé dans le code ; `.env` est ignoré par Git (voir `.gitignore`).
 - `APP_PASSWORD` protège toute l'API (sauf `/api/health`) via l'en-tête `X-App-Password`.
   Le mot de passe est saisi dans l'interface et gardé seulement pour la durée de l'onglet.
-- Les actions qui modifient des données (email, événements, Notion) exigent une confirmation explicite.
+- Les actions qui modifient des données passent par `tools/actions.py` : l'outil **propose**
+  l'action (stockée dans `pending_actions`) et `confirm_action` ne l'exécute que si elle a été
+  proposée lors d'un tour **précédent**. L'utilisateur voit donc toujours la proposition avant
+  que quoi que ce soit ne change : ce garde-fou est dans le code, pas seulement dans le prompt.
+- Google : OAuth 2.0 avec permissions minimales (`calendar.events`, `drive.readonly`), voir `GOOGLE_SETUP.md`.
 
 ## Flux SSE de `POST /api/chat`
 

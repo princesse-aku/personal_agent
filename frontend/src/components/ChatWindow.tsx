@@ -13,6 +13,14 @@ export interface ChatMessage {
 const TOOL_LABELS: Record<string, string> = {
   web_search: '🔍 Recherche web',
   get_weather: '🌤️ Météo',
+  calendar_list_events: '📅 Lecture de l’agenda',
+  calendar_create_event: '📅 Création d’événement',
+  calendar_propose_update: '📅 Proposition de modification',
+  calendar_propose_delete: '📅 Proposition de suppression',
+  drive_search: '📁 Recherche Drive',
+  drive_read_file: '📄 Lecture de document',
+  confirm_action: '✅ Exécution confirmée',
+  cancel_action: '↩️ Action annulée',
 }
 
 function ToolChips({ tools }: { tools: ToolEvent[] }) {
