@@ -19,6 +19,11 @@ const TOOL_LABELS: Record<string, string> = {
   calendar_propose_delete: '📅 Proposition de suppression',
   drive_search: '📁 Recherche Drive',
   drive_read_file: '📄 Lecture de document',
+  email_propose: '✉️ Brouillon d’email',
+  notion_search: '🗒️ Recherche Notion',
+  notion_read_page: '🗒️ Lecture Notion',
+  notion_create_page: '🗒️ Création de page Notion',
+  notion_append: '🗒️ Ajout dans Notion',
   confirm_action: '✅ Exécution confirmée',
   cancel_action: '↩️ Action annulée',
 }

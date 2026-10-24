@@ -1,5 +1,6 @@
 """Google Calendar tools (primary calendar of the authorized test account)."""
 
+import os
 from datetime import date, datetime, time, timedelta
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
@@ -10,7 +11,10 @@ from agent.deps import Deps
 from tools.actions import executor, propose
 from tools.google_auth import google_error, google_request, guard as _guard
 
-EVENTS_URL = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
+# Optional GOOGLE_CALENDAR_ID restricts the agent to one dedicated calendar (e.g. a secondary
+# "Agent IA" calendar on a personal account); defaults to the account's primary calendar.
+CALENDAR_ID = os.getenv("GOOGLE_CALENDAR_ID") or "primary"
+EVENTS_URL = f"https://www.googleapis.com/calendar/v3/calendars/{quote(CALENDAR_ID, safe='')}/events"
 
 
 # ---------- helpers ----------

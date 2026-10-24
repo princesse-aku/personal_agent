@@ -20,6 +20,8 @@ from tools.calendar import (
     calendar_propose_update,
 )
 from tools.drive import drive_read_file, drive_search
+from tools.email import email_propose
+from tools.notion import notion_append, notion_create_page, notion_read_page, notion_search
 from tools.weather import get_weather
 from tools.web import web_search
 
@@ -41,6 +43,11 @@ agent = Agent(
         calendar_propose_delete,
         drive_search,
         drive_read_file,
+        email_propose,
+        notion_search,
+        notion_read_page,
+        notion_create_page,
+        notion_append,
         confirm_action,
         cancel_action,
     ],
